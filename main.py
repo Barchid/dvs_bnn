@@ -12,7 +12,7 @@ from project.bnn_module import BNNModule
 
 data_dir = "/sandbox0/sami/data"
 transf = ["crop", "background_activity", "flip_polarity", "event_drop_2"]
-learning_rate = 1e-3
+learning_rate = 1e-2
 epochs = 500
 
 
