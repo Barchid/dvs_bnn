@@ -65,7 +65,10 @@ def main(dataset):
 
 if __name__ == "__main__":
     main(dataset="dvsgesture")
-    
+    main(dataset="daily_action_dvs")
+    main(dataset="n-caltech101")
+    main(dataset="ncars")
+    main(dataset="asl-dvs")
     # main(dataset="cifar10-dvs")
     
     # main(dataset="cifar10-dvs")
