@@ -29,7 +29,7 @@ def main(dataset):
         mode="cnn",
     )
     
-    module = BNNModule(learning_rate=learning_rate, n_classes=datamodule.num_classes)
+    module = BNNModule(learning_rate=learning_rate, n_classes=datamodule.num_classes, epochs=epochs)
 
     # saves the best model checkpoint based on the accuracy in the validation set
     checkpoint_callback = pl.callbacks.ModelCheckpoint(

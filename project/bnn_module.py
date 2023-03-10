@@ -11,7 +11,7 @@ from project.models.resnet18 import resnet18_encoder
 
 
 class BNNModule(pl.LightningModule):
-    def __init__(self, learning_rate: float, n_classes: int, **kwargs):
+    def __init__(self, learning_rate: float, n_classes: int, epochs: int, **kwargs):
         super().__init__()
         self.learning_rate = learning_rate
         self.fc = nn.Linear(512, n_classes)
