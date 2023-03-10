@@ -235,7 +235,7 @@ class DVSDataModule(pl.LightningDataModule):
         return DataLoader(
             self.val_set,
             batch_size=self.batch_size,
-            num_workers=3,
+            num_workers=5,
             shuffle=False,
         )  # self.num_workers
 

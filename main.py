@@ -11,9 +11,9 @@ from project.datamodules.dvsdatamodule import DVSDataModule
 from project.bnn_module import BNNModule
 
 data_dir = "/sandbox0/sami/data"
-transf = ["crop", "flip", "background_activity", "flip_polarity", "event_drop_2"]
+transf = ["crop", "background_activity", "flip_polarity", "event_drop_2"]
 learning_rate = 1e-2
-epochs = 300
+epochs = 500
 
 
 def main(dataset):
@@ -21,7 +21,7 @@ def main(dataset):
     pl.seed_everything(1234)
 
     datamodule = DVSDataModule(
-        batch_size=128,
+        batch_size=64,
         dataset=dataset,
         timesteps=12,
         data_dir=data_dir,
