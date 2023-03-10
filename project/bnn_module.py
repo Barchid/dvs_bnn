@@ -15,7 +15,8 @@ class BNNModule(pl.LightningModule):
         super().__init__()
         self.learning_rate = learning_rate
         self.fc = nn.Linear(512, n_classes)
-        self.encoder = resnet18_encoder(24)  # TODO
+        self.encoder = resnet18_encoder(24)
+        self.epochs = epochs
 
     def forward(self, x):
         # (T, B, C, H, W) --> (B, num_classes)
