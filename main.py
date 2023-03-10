@@ -61,6 +61,8 @@ def main(dataset):
     report = open(report_path, "a")
 
     report.write(f"BNN {dataset} {trainer.checkpoint_callback.best_model_score}\n")
+    report.flush()
+    report.close()
 
 
 if __name__ == "__main__":
