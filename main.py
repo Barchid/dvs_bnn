@@ -19,7 +19,6 @@ epochs = 300
 def main(dataset):
     # seeds the random from numpy, pytorch, etc for reproductibility
     pl.seed_everything(1234)
-    module = BNNModule(learning_rate=learning_rate)
 
     datamodule = DVSDataModule(
         batch_size=128,
@@ -29,6 +28,8 @@ def main(dataset):
         transf=transf,
         mode="cnn",
     )
+    
+    module = BNNModule(learning_rate=learning_rate, n_classes=datamodule.num_classes)
 
     # saves the best model checkpoint based on the accuracy in the validation set
     checkpoint_callback = pl.callbacks.ModelCheckpoint(

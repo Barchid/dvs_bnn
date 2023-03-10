@@ -26,9 +26,6 @@ class DVSDataModule(pl.LightningDataModule):
         timesteps: int = 10,
         data_dir: str = "data/",
         transf=None,
-        mode="cnn",
-        in_memory: bool = False,
-        use_barlow_trans=True,
         subset_len=None,
         **kwargs
     ):
@@ -37,7 +34,6 @@ class DVSDataModule(pl.LightningDataModule):
         self.data_dir = data_dir
         self.dataset = dataset  # name of the dataset
         self.timesteps = timesteps
-        self.in_memory = in_memory
         self.subset_len = subset_len
 
         # create the directory if not exist
