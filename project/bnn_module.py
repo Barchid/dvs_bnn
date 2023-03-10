@@ -21,7 +21,8 @@ class BNNModule(pl.LightningModule):
     def forward(self, x):
         # (T, B, C, H, W) --> (B, num_classes)
         x = self.encoder(x)
-        return x
+        y_hat = self.fc(x)
+        return y_hat
 
     def training_step(self, batch, batch_idx):
         x, y = batch
