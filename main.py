@@ -51,7 +51,7 @@ def main(dataset):
             "/sandbox0/sami/experiments/bnn", name=f"{name}"
         ),
         default_root_dir=f"/sandbox0/sami/experiments/bnn/{name}",
-        # precision=16,
+        precision=16,
     )
 
     trainer.fit(module, datamodule=datamodule)
