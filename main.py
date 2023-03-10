@@ -10,7 +10,7 @@ from project.datamodules.dvsdatamodule import DVSDataModule
 
 from project.bnn_module import BNNModule
 
-data_dir = "/sandbox1/sami/data"
+data_dir = "/sandbox0/sami/data"
 transf = ["crop", "flip", "background_activity", "flip_polarity", "event_drop_2"]
 learning_rate = 1e-2
 epochs = 300
@@ -47,9 +47,9 @@ def main(dataset):
             # EarlyStopping(monitor="val_acc", mode="max", patience=50),
         ],
         logger=pl.loggers.TensorBoardLogger(
-            "/sandbox1/sami/experiments/bnn", name=f"{name}"
+            "/sandbox0/sami/experiments/bnn", name=f"{name}"
         ),
-        default_root_dir=f"/sandbox1/sami/experiments/bnn/{name}",
+        default_root_dir=f"/sandbox0/sami/experiments/bnn/{name}",
         # precision=16,
     )
 
