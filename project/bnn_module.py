@@ -11,11 +11,15 @@ from project.models.resnet18 import resnet18_encoder
 
 
 class BNNModule(pl.LightningModule):
-    def __init__(self, learning_rate: float, n_classes: int, epochs: int, **kwargs):
+    def __init__(self, learning_rate: float, n_classes: int, epochs: int, model="18", **kwargs):
         super().__init__()
         self.learning_rate = learning_rate
-        self.fc = nn.Linear(512, n_classes)
-        self.encoder = resnet18_encoder(24)
+        if "20" in model:
+            self.encoder = None
+            self.fc = nn.Linear(64, n_classes)
+        else:
+            self.encoder = resnet18_encoder(24)
+            self.fc = nn.Linear(512, n_classes)
         self.epochs = epochs
 
     def forward(self, x):
