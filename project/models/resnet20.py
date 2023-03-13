@@ -102,7 +102,7 @@ class ResNet(nn.Module):
 def resnet20_1w1a():
     return ResNet(BasicBlock_1w1a, [3, 3, 3])
 
-def resnet18_encoder(in_channels: int):
+def resnet20_encoder(in_channels: int):
     encoder = resnet20_1w1a()
     encoder.conv1 = nn.Conv2d(in_channels, 16, kernel_size=3, stride=1, padding=1, bias=False)
     encoder.linear = nn.Identity()

@@ -8,6 +8,7 @@ import pytorch_lightning as pl
 from torch.nn import functional as F
 import torchmetrics
 from project.models.resnet18 import resnet18_encoder
+from project.models.resnet20 import resnet20_encoder
 
 
 class BNNModule(pl.LightningModule):
@@ -15,7 +16,7 @@ class BNNModule(pl.LightningModule):
         super().__init__()
         self.learning_rate = learning_rate
         if "20" in model:
-            self.encoder = None
+            self.encoder = resnet20_encoder(24)
             self.fc = nn.Linear(64, n_classes)
         else:
             self.encoder = resnet18_encoder(24)
