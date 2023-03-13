@@ -9,18 +9,24 @@ from torch.nn import functional as F
 import torchmetrics
 from project.models.resnet18 import resnet18_encoder
 from project.models.resnet20 import resnet20_encoder
+from project.utils.localization import DIoULoss, compute_IoU
 
 
 class BNNModule(pl.LightningModule):
     def __init__(self, learning_rate: float, n_classes: int, epochs: int, model="18", **kwargs):
         super().__init__()
         self.learning_rate = learning_rate
+        self.model = model
         if "20" in model:
             self.encoder = resnet20_encoder(24)
             self.fc = nn.Linear(64, n_classes)
         else:
             self.encoder = resnet18_encoder(24)
             self.fc = nn.Linear(512, n_classes)
+            
+        if "loc" in model:
+            self.criterion = DIoULoss()
+            
         self.epochs = epochs
 
     def forward(self, x):
@@ -32,8 +38,12 @@ class BNNModule(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        loss = F.cross_entropy(y_hat, y)
-        acc = torchmetrics.functional.accuracy(y_hat.clone().detach(), y)
+        if "loc" in self.model:
+            loss = self.criterion(y_hat, y)
+            acc = compute_IoU(y_hat.clone().detach(), y)
+        else:
+            loss = F.cross_entropy(y_hat, y)
+            acc = torchmetrics.functional.accuracy(y_hat.clone().detach(), y)
 
         self.log("train_loss", loss, on_epoch=True, prog_bar=False)
         self.log("train_acc", acc, on_epoch=True, prog_bar=True)
@@ -42,8 +52,12 @@ class BNNModule(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        loss = F.cross_entropy(y_hat, y)
-        acc = torchmetrics.functional.accuracy(y_hat.clone().detach(), y)
+        if "loc" in self.model:
+            loss = self.criterion(y_hat, y)
+            acc = compute_IoU(y_hat.clone().detach(), y)
+        else:
+            loss = F.cross_entropy(y_hat, y)
+            acc = torchmetrics.functional.accuracy(y_hat.clone().detach(), y)
 
         # logs
         self.log("val_loss", loss, on_epoch=True, prog_bar=True)
@@ -52,8 +66,12 @@ class BNNModule(pl.LightningModule):
     def test_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        loss = F.cross_entropy(y_hat, y)
-        acc = torchmetrics.functional.accuracy(y_hat.clone().detach(), y)
+        if "loc" in self.model:
+            loss = self.criterion(y_hat, y)
+            acc = compute_IoU(y_hat.clone().detach(), y)
+        else:
+            loss = F.cross_entropy(y_hat, y)
+            acc = torchmetrics.functional.accuracy(y_hat.clone().detach(), y)
 
         self.log("test_loss", loss, on_epoch=True, prog_bar=True)
         self.log("test_acc", acc, on_epoch=True, prog_bar=True)
