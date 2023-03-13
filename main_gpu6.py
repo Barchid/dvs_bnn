@@ -50,7 +50,7 @@ def main(model="18loc"):
         )
     
     
-    module = BNNModule(learning_rate=learning_rate, n_classes=datamodule.num_classes, epochs=epochs, model=model)
+    module = BNNModule(learning_rate=learning_rate, n_classes=4, epochs=epochs, model=model)
 
     # saves the best model checkpoint based on the accuracy in the validation set
     checkpoint_callback = pl.callbacks.ModelCheckpoint(
