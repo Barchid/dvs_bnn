@@ -21,15 +21,6 @@ epochs = 500
 def main(model="18loc"):
     # seeds the random from numpy, pytorch, etc for reproductibility
     pl.seed_everything(1234)
-
-    datamodule = DVSDataModule(
-        batch_size=128,
-        dataset=dataset,
-        timesteps=12,
-        data_dir=data_dir,
-        transf=transf,
-        mode="cnn",
-    )
     
     dataset = NCALTECH101Localization(
         data_dir,
