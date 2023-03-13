@@ -12,7 +12,7 @@ from project.bnn_module import BNNModule
 from project.utils.transform import DVSTransform
 from torch.utils.data import random_split, DataLoader, Subset
 
-data_dir = "~/dvs_ssl/data"
+data_dir = "/home/sbarchid/dvs_ssl/data"
 transf = ["crop", "background_activity", "flip_polarity", "event_drop_2"]
 learning_rate = 1e-2
 epochs = 500
@@ -28,7 +28,7 @@ def main(model="18loc"):
             None,
             timesteps=12,
             concat_time_channels=True,
-            transforms_list=["background_noise", "flip_polarity", "event_drop_2"],
+            transforms_list=["background_activity", "flip_polarity", "event_drop_2"],
         )
     )
     
