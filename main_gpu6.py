@@ -72,7 +72,7 @@ def main(model="18loc"):
             "/datas/sandbox/sami/bnn", name=f"{name}"
         ),
         default_root_dir=f"/datas/sandbox/sami/bnn/{name}",
-        precision=16,
+        # precision=16,
     )
 
     trainer.fit(module, train_loader, val_loader)
