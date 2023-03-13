@@ -10,7 +10,7 @@ from project.datamodules.dvsdatamodule import DVSDataModule
 
 from project.bnn_module import BNNModule
 
-data_dir = "/sandbox0/sami/data"
+data_dir = "~/dvs_ssl/data"
 transf = ["crop", "background_activity", "flip_polarity", "event_drop_2"]
 learning_rate = 1e-2
 epochs = 500
@@ -48,9 +48,9 @@ def main(dataset):
             # EarlyStopping(monitor="val_acc", mode="max", patience=50),
         ],
         logger=pl.loggers.TensorBoardLogger(
-            "/sandbox0/sami/experiments/bnn", name=f"{name}"
+            "/datas/sandbox/sami/bnn", name=f"{name}"
         ),
-        default_root_dir=f"/sandbox0/sami/experiments/bnn/{name}",
+        default_root_dir=f"/datas/sandbox/sami/bnn/{name}",
         precision=16,
     )
 
@@ -68,9 +68,9 @@ def main(dataset):
 if __name__ == "__main__":
     main(dataset="dvsgesture")
     main(dataset="daily_action_dvs")
-    main(dataset="n-caltech101")
+    # main(dataset="n-caltech101")
     main(dataset="ncars")
-    main(dataset="asl-dvs")
+    # main(dataset="asl-dvs")
     # main(dataset="cifar10-dvs")
     
     # main(dataset="cifar10-dvs")
