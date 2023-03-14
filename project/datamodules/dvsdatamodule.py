@@ -11,6 +11,7 @@ import os
 import numpy as np
 import copy
 from project.utils.transform import DVSTransform
+from project.utils.transform_robu import DVSTransformRobu
 from project.datamodules.cifar10dvs import CIFAR10DVS
 from project.datamodules.dvs_lips import DVSLip
 from project.datamodules.ncaltech101 import NCALTECH101
@@ -27,6 +28,8 @@ class DVSDataModule(pl.LightningDataModule):
         data_dir: str = "data/",
         transf=None,
         subset_len=None,
+        robu = None,
+        sev = None,
         **kwargs
     ):
         super().__init__()
@@ -35,26 +38,42 @@ class DVSDataModule(pl.LightningDataModule):
         self.dataset = dataset  # name of the dataset
         self.timesteps = timesteps
         self.subset_len = subset_len
-
+        
         # create the directory if not exist
         os.makedirs(data_dir, exist_ok=True)
 
         # transform
         self.sensor_size, self.num_classes = self._get_dataset_info()
 
-        self.train_transform = DVSTransform(
-            self.sensor_size,
-            timesteps=timesteps,
-            concat_time_channels=True,
-            transforms_list=transf,
-        )
+        if robu is not None:
+            self.train_transform = DVSTransform(
+                self.sensor_size,
+                timesteps=timesteps,
+                concat_time_channels=True,
+                transforms_list=transf,
+            )
 
-        self.val_transform = DVSTransform(
-            self.sensor_size,
-            timesteps=timesteps,
-            concat_time_channels=True,
-            transforms_list=[],
-        )
+            self.val_transform = DVSTransformRobu(
+                self.sensor_size,
+                timesteps=timesteps,
+                concat_time_channels=True,
+                transforms_list=[robu],
+                severity=sev
+            )
+        else:
+            self.train_transform = DVSTransform(
+                self.sensor_size,
+                timesteps=timesteps,
+                concat_time_channels=True,
+                transforms_list=transf,
+            )
+
+            self.val_transform = DVSTransform(
+                self.sensor_size,
+                timesteps=timesteps,
+                concat_time_channels=True,
+                transforms_list=[],
+            )
 
     def _get_dataset_info(self):
         if self.dataset == "n-mnist":
