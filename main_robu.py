@@ -59,8 +59,8 @@ def main(dataset, ckpt, tran, sev):
         precision=16,
     )
 
-    trainer.fit(module, datamodule=datamodule)
-
+    # trainer.fit(module, datamodule=datamodule)
+    trainer.validate(module, datamodule=datamodule)
     # report results in a txt file
     report_path = os.path.join("val_report.txt")
     report = open(report_path, "a")
