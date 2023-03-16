@@ -152,7 +152,7 @@ class DVSDataModule(pl.LightningDataModule):
             )
             self.val_set = tonic.datasets.DVSGesture(
                 save_to=self.data_dir,
-                transform=self.train_transform,
+                transform=self.val_transform,
                 target_transform=None,
                 train=False,
             )
@@ -162,7 +162,10 @@ class DVSDataModule(pl.LightningDataModule):
             full_length = len(dataset)
             train_len = int(0.9 * full_length)
             val_len = full_length - train_len
-            self.train_set, self.val_set = random_split(dataset, [train_len, val_len])
+            self.train_set, _ = random_split(dataset, [train_len, val_len])
+            
+            dataset = NCALTECH101(save_to=self.data_dir, transform=self.val_transform)
+            _, self.val_set = random_split(dataset, [train_len, val_len])
 
         elif self.dataset == "asl-dvs":
             dataset = tonic.datasets.ASLDVS(
@@ -177,7 +180,7 @@ class DVSDataModule(pl.LightningDataModule):
                 self.data_dir, train=True, transform=self.train_transform
             )
             self.val_set = NCARS(
-                self.data_dir, train=False, transform=self.train_transform
+                self.data_dir, train=False, transform=self.val_transform
             )
         elif self.dataset == "dvs_lips":
             self.train_set = DVSLip(
@@ -199,7 +202,12 @@ class DVSDataModule(pl.LightningDataModule):
             full_length = len(dataset)
             train_len = int(0.9 * full_length)
             val_len = full_length - train_len
-            self.train_set, self.val_set = random_split(dataset, [train_len, val_len])
+            self.train_set, _ = random_split(dataset, [train_len, val_len])
+            
+            dataset = DailyActionDVS(
+                save_to=self.data_dir, transform=self.val_transform
+            )
+            _, self.val_set = random_split(dataset, [train_len, val_len])
 
         if self.subset_len is not None:
             print("CREATE SUBSET FOR SEMI-SUPERVISED!!!")
